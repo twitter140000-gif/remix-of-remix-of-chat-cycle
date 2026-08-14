@@ -34,7 +34,7 @@ function NewExpense() {
   const [cat, setCat] = useState<ExpenseCategory>(category ?? "MISCELLANEOUS");
   const [name, setName] = useState("");
   const [amount, setAmount] = useState(0);
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState(nowISO().slice(0, 10));
   const [description, setDescription] = useState("");
   const [relatedUserId, setRelatedUserId] = useState("");
   const [error, setError] = useState("");

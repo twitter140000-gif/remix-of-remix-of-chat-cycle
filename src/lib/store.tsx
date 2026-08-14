@@ -815,7 +815,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           ...entry,
           id: uid("a"),
           userId,
-          createdAt: new Date().toISOString(),
+          createdAt: nowISO(),
         };
         setRaw((s) => ({ ...s, activity: [row, ...s.activity] }));
         synced.current = { ...synced.current, activity: [row, ...synced.current.activity] };
@@ -847,7 +847,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
                 vibratePattern: pattern,
                 id: uid("n"),
                 isRead: false,
-                createdAt: new Date().toISOString(),
+                createdAt: nowISO(),
                 deliverAt: deliverAt.toISOString(),
                 delivered: false,
               },

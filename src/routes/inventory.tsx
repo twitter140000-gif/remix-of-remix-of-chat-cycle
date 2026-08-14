@@ -130,7 +130,7 @@ function InventoryPage() {
           wage: form.wage,
           status: "PENDING",
           createdBy: user.id,
-          createdAt: new Date().toISOString(),
+          createdAt: nowISO(),
         },
         ...s.tasks,
       ],

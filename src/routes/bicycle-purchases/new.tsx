@@ -62,7 +62,7 @@ function NewPurchase() {
           description: form.description,
           createdBy: user.id,
           status: "PENDING",
-          createdAt: new Date().toISOString(),
+          createdAt: nowISO(),
         },
         ...s.purchases,
       ],

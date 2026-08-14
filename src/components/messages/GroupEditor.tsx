@@ -55,7 +55,7 @@ export function GroupEditor({
           title: name,
           memberIds,
           createdBy: me.id,
-          createdAt: new Date().toISOString(),
+          createdAt: nowISO(),
         };
     setState((s) => ({
       ...s,

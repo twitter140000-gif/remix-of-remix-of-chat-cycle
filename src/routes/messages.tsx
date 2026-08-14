@@ -336,7 +336,7 @@ function Chat({
       setState((s) => ({
         ...s,
         messages: s.messages.map((m) =>
-          m.id === editing.id ? { ...m, text: body, editedAt: new Date().toISOString() } : m,
+          m.id === editing.id ? { ...m, text: body, editedAt: nowISO() } : m,
         ),
       }));
       log({
@@ -356,7 +356,7 @@ function Chat({
       senderId: me.id,
       text: body,
       ...(draft ? { attachment: draft } : {}),
-      createdAt: new Date().toISOString(),
+      createdAt: nowISO(),
       readBy: [me.id],
     };
     setState((s) => ({ ...s, messages: [...s.messages, msg] }));
