@@ -94,9 +94,6 @@ function Messages() {
       groupId?: string;
     }[] = [];
     if (!user) return list;
-    list.push({ id: "public", title: "گروه عمومی", subtitle: "همه کاربران فعال", group: true });
-    if (can(user, "partnersChat"))
-      list.push({ id: "partners", title: "گروه شرکا", subtitle: "مدیران و شرکا", group: true });
     for (const g of myGroups)
       list.push({
         id: groupKey(g.id),
