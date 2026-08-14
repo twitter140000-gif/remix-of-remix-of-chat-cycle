@@ -37,6 +37,7 @@ import { faDateTimeLong, faTime, toFa } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import chatBg from "@/assets/chat-bg.jpg";
 import { Logo } from "@/components/brand/Logo";
+import { useChatViewport } from "@/hooks/use-chat-viewport";
 
 export const Route = createFileRoute("/messages")({
   head: () => ({
@@ -275,11 +276,19 @@ function Chat({
   }, [state.messages, channelId, me.id, setState]);
 
   // Keep the newest message in view without scrolling the whole page.
-  useEffect(() => {
+  function pinToBottom() {
     const el = scroller.current;
     if (!el) return;
     el.scrollTop = el.scrollHeight;
+  }
+
+  useEffect(() => {
+    pinToBottom();
   }, [messages.length, channelId, draft, editing]);
+
+  // Height follows the visible viewport so the mobile keyboard never hides
+  // the composer or the last message.
+  const { ref: shellRef, height: shellHeight } = useChatViewport(pinToBottom);
 
   async function pick(kind: "media" | "file", file?: File | null) {
     if (!file) return;
@@ -394,7 +403,11 @@ function Chat({
   }
 
   return (
-    <div className="chat-shell relative -mx-4 flex h-[calc(100dvh-13.5rem)] min-h-[24rem] flex-col overflow-hidden rounded-none sm:mx-0 sm:rounded-3xl lg:h-[calc(100dvh-9.5rem)]">
+    <div
+      ref={shellRef}
+      style={shellHeight ? { height: shellHeight } : undefined}
+      className="chat-shell relative -mx-4 flex h-[calc(100dvh-13.5rem)] min-h-[18rem] flex-col overflow-hidden rounded-none sm:mx-0 sm:rounded-3xl lg:h-[calc(100dvh-9.5rem)]"
+    >
       <img src={chatBg} alt="" aria-hidden loading="lazy" className="chat-bg" />
       <div className="chat-veil" />
 
