@@ -155,37 +155,57 @@ function Messages() {
               const unread = msgs.filter(
                 (m) => m.senderId !== me.id && !m.readBy.includes(me.id),
               ).length;
+              const grp = ch.groupId
+                ? (state.chatGroups ?? []).find((g) => g.id === ch.groupId)
+                : undefined;
               return (
-                <button
+                <div
                   key={ch.id}
-                  onClick={() => void navigate({ to: "/messages", search: { c: ch.id } })}
-                  className="flex w-full items-center gap-3 rounded-2xl border bg-card p-3 text-start transition-colors hover:bg-accent"
+                  className="flex w-full items-center gap-2 rounded-2xl border bg-card p-3 transition-colors hover:bg-accent"
                 >
-                  <Avatar className="size-11">
-                    <AvatarFallback className="bg-primary-soft font-bold text-primary">
-                      {ch.group ? <Users className="size-5" /> : ch.title.slice(0, 1)}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-bold">{ch.title}</p>
-                    <p className="truncate text-xs text-muted-foreground">
-                      {last ? last.text || attachmentLabel(last.attachment) : ch.subtitle}
-                    </p>
-                  </div>
-                  <div className="shrink-0 text-end">
-                    {last ? (
-                      <span className="block text-[11px] text-muted-foreground">
-                        {faTime(last.createdAt)}
-                      </span>
-                    ) : null}
-                    {unread > 0 ? (
-                      <span className="mt-1 inline-block rounded-full bg-destructive px-2 text-xs font-bold text-destructive-foreground">
-                        {toFa(unread)}
-                      </span>
-                    ) : null}
-                  </div>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => void navigate({ to: "/messages", search: { c: ch.id } })}
+                    className="flex min-w-0 flex-1 items-center gap-3 text-start"
+                  >
+                    <Avatar className="size-11">
+                      <AvatarFallback className="bg-primary-soft font-bold text-primary">
+                        {ch.group ? <Users className="size-5" /> : ch.title.slice(0, 1)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-bold">{ch.title}</p>
+                      <p className="truncate text-xs text-muted-foreground">
+                        {last ? last.text || attachmentLabel(last.attachment) : ch.subtitle}
+                      </p>
+                    </div>
+                    <div className="shrink-0 text-end">
+                      {last ? (
+                        <span className="block text-[11px] text-muted-foreground">
+                          {faTime(last.createdAt)}
+                        </span>
+                      ) : null}
+                      {unread > 0 ? (
+                        <span className="mt-1 inline-block rounded-full bg-destructive px-2 text-xs font-bold text-destructive-foreground">
+                          {toFa(unread)}
+                        </span>
+                      ) : null}
+                    </div>
+                  </button>
+                  {grp ? (
+                    <button
+                      type="button"
+                      onClick={() => setEditing(grp)}
+                      aria-label={`افزودن عضو به ${ch.title}`}
+                      title="افزودن عضو"
+                      className="grid size-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"
+                    >
+                      <UserPlus className="size-5" />
+                    </button>
+                  ) : null}
+                </div>
               );
+
             })}
         </div>
 
