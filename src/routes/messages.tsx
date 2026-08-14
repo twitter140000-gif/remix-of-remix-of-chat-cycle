@@ -37,6 +37,7 @@ import {
 import { faDateTimeLong, faTime, toFa } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import chatBg from "@/assets/chat-bg.jpg";
+import { Logo } from "@/components/brand/Logo";
 
 export const Route = createFileRoute("/messages")({
   head: () => ({
@@ -406,9 +407,7 @@ function Chat({
         >
           <ArrowRight className="size-5" />
         </button>
-        <span className="grad-primary grid size-10 shrink-0 place-items-center rounded-full text-primary-foreground shadow-[var(--shadow-glow)]">
-          <Bike className="size-5" />
-        </span>
+        <Logo className="size-10 rounded-full shadow-[var(--shadow-glow)]" />
         <div className="min-w-0 flex-1">
           <p className="truncate font-display text-lg leading-tight text-on-hero">{title}</p>
           <p className="truncate text-xs font-bold text-on-hero-muted">{subtitle}</p>
