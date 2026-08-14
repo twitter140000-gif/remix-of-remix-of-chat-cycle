@@ -1,8 +1,8 @@
+import { nowISO } from "@/lib/datetime";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowRight,
-  Bike,
   Check,
   CheckCheck,
   Image as ImageIcon,
@@ -36,6 +36,8 @@ import {
 import { faDateTimeLong, faTime, toFa } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import chatBg from "@/assets/chat-bg.jpg";
+import { Logo } from "@/components/brand/Logo";
+import { useChatViewport } from "@/hooks/use-chat-viewport";
 
 export const Route = createFileRoute("/messages")({
   head: () => ({
@@ -274,11 +276,19 @@ function Chat({
   }, [state.messages, channelId, me.id, setState]);
 
   // Keep the newest message in view without scrolling the whole page.
-  useEffect(() => {
+  function pinToBottom() {
     const el = scroller.current;
     if (!el) return;
     el.scrollTop = el.scrollHeight;
+  }
+
+  useEffect(() => {
+    pinToBottom();
   }, [messages.length, channelId, draft, editing]);
+
+  // Height follows the visible viewport so the mobile keyboard never hides
+  // the composer or the last message.
+  const { ref: shellRef, height: shellHeight } = useChatViewport(pinToBottom);
 
   async function pick(kind: "media" | "file", file?: File | null) {
     if (!file) return;
@@ -336,7 +346,7 @@ function Chat({
       setState((s) => ({
         ...s,
         messages: s.messages.map((m) =>
-          m.id === editing.id ? { ...m, text: body, editedAt: new Date().toISOString() } : m,
+          m.id === editing.id ? { ...m, text: body, editedAt: nowISO() } : m,
         ),
       }));
       log({
@@ -356,7 +366,7 @@ function Chat({
       senderId: me.id,
       text: body,
       ...(draft ? { attachment: draft } : {}),
-      createdAt: new Date().toISOString(),
+      createdAt: nowISO(),
       readBy: [me.id],
     };
     setState((s) => ({ ...s, messages: [...s.messages, msg] }));
@@ -393,7 +403,11 @@ function Chat({
   }
 
   return (
-    <div className="chat-shell relative -mx-4 flex h-[calc(100dvh-13.5rem)] min-h-[24rem] flex-col overflow-hidden rounded-none sm:mx-0 sm:rounded-3xl lg:h-[calc(100dvh-9.5rem)]">
+    <div
+      ref={shellRef}
+      style={shellHeight ? { height: shellHeight } : undefined}
+      className="chat-shell relative -mx-4 flex h-[calc(100dvh-13.5rem)] min-h-[18rem] flex-col overflow-hidden rounded-none sm:mx-0 sm:rounded-3xl lg:h-[calc(100dvh-9.5rem)]"
+    >
       <img src={chatBg} alt="" aria-hidden loading="lazy" className="chat-bg" />
       <div className="chat-veil" />
 
@@ -405,9 +419,7 @@ function Chat({
         >
           <ArrowRight className="size-5" />
         </button>
-        <span className="grad-primary grid size-10 shrink-0 place-items-center rounded-full text-primary-foreground shadow-[var(--shadow-glow)]">
-          <Bike className="size-5" />
-        </span>
+        <Logo className="size-10 rounded-full shadow-[var(--shadow-glow)]" />
         <div className="min-w-0 flex-1">
           <p className="truncate font-display text-lg leading-tight text-on-hero">{title}</p>
           <p className="truncate text-xs font-bold text-on-hero-muted">{subtitle}</p>

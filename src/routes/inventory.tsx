@@ -1,3 +1,4 @@
+import { nowISO } from "@/lib/datetime";
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Bike, Palette, Ruler, Search, Wrench } from "lucide-react";
@@ -130,7 +131,7 @@ function InventoryPage() {
           wage: form.wage,
           status: "PENDING",
           createdBy: user.id,
-          createdAt: new Date().toISOString(),
+          createdAt: nowISO(),
         },
         ...s.tasks,
       ],

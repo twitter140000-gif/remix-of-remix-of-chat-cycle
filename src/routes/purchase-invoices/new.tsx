@@ -1,3 +1,4 @@
+import { nowISO } from "@/lib/datetime";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -29,7 +30,7 @@ function NewInvoice() {
   const navigate = useNavigate();
   const [number, setNumber] = useState(`INV-${new Date().getFullYear()}-${Math.floor(Math.random() * 900 + 100)}`);
   const [supplier, setSupplier] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useState(nowISO().slice(0, 10));
   const [notes, setNotes] = useState("");
   const [items, setItems] = useState<InvoiceItem[]>([
     { id: uid("it"), productName: "", probableQty: 1, probableUnitPrice: 0 },

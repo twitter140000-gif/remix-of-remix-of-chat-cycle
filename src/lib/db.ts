@@ -1,3 +1,4 @@
+import { nowISO } from "./datetime";
 /**
  * Cloud persistence layer. The app keeps its familiar in-memory state shape and
  * this module mirrors every change to the shared cloud database, so all devices
@@ -29,7 +30,7 @@ import { saveTeamUser } from "./users.functions";
 type Row = any;
 
 const num = (v: unknown) => Number(v ?? 0);
-const iso = (v: unknown) => (v ? new Date(v as string).toISOString() : new Date().toISOString());
+const iso = (v: unknown) => (v ? new Date(v as string).toISOString() : nowISO());
 
 /* ---------- mappers ---------- */
 
@@ -109,7 +110,7 @@ const expenseToRow = (e: Expense): Row => ({
   category: e.category,
   name: e.name ?? null,
   amount: e.amount,
-  date: e.date || new Date().toISOString().slice(0, 10),
+  date: e.date || nowISO().slice(0, 10),
   description: e.description,
   related_user_id: e.relatedUserId ?? null,
   created_by: e.createdBy,
@@ -200,7 +201,7 @@ const invoiceToRow = (v: PurchaseInvoice): Row => ({
   id: v.id,
   invoice_number: v.invoiceNumber,
   supplier: v.supplier,
-  date: v.date || new Date().toISOString().slice(0, 10),
+  date: v.date || nowISO().slice(0, 10),
   status: v.status,
   notes: v.notes,
   created_by: v.createdBy,

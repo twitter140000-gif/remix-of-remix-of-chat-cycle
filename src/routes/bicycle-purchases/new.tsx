@@ -1,3 +1,4 @@
+import { nowISO } from "@/lib/datetime";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -62,7 +63,7 @@ function NewPurchase() {
           description: form.description,
           createdBy: user.id,
           status: "PENDING",
-          createdAt: new Date().toISOString(),
+          createdAt: nowISO(),
         },
         ...s.purchases,
       ],

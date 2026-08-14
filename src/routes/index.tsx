@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Bike, Eye, EyeOff, Lock, LogIn, User } from "lucide-react";
+import { Eye, EyeOff, Lock, LogIn, User } from "lucide-react";
+import { Logo } from "@/components/brand/Logo";
 import { toast } from "sonner";
 import { useStore } from "@/lib/store";
 import loginBanner from "@/assets/login-banner.jpg";
@@ -72,9 +73,7 @@ function LoginPage() {
           />
           <div aria-hidden className="hero-veil" />
           <div className="relative flex h-full flex-col items-center justify-end gap-1.5 p-5 text-center">
-            <div className="grad-primary grid size-14 place-items-center rounded-2xl text-primary-foreground shadow-[var(--shadow-glow)] ring-1 ring-on-hero/25">
-              <Bike className="size-8" />
-            </div>
+            <Logo className="size-16 rounded-2xl shadow-[var(--shadow-glow)] ring-1 ring-on-hero/25" />
             <h1 className="font-display text-3xl leading-tight tracking-tight text-on-hero drop-shadow">
               دز رکاب
             </h1>

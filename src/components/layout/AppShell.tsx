@@ -1,6 +1,7 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { Bell, Plus, LogOut, Bike } from "lucide-react";
+import { Bell, Plus, LogOut } from "lucide-react";
+import { Logo } from "@/components/brand/Logo";
 import { can, isForUser, ROLE_LABEL, useStore, type Role } from "@/lib/store";
 import { cn } from "@/lib/utils";
 import loginBanner from "@/assets/login-banner.jpg";
@@ -122,9 +123,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       {/* Desktop sidebar */}
       <aside className="no-print sticky top-0 hidden h-screen w-72 shrink-0 border-l bg-sidebar p-4 lg:flex lg:flex-col">
         <div className="flex items-center gap-2 px-2 py-3">
-          <span className="grad-primary grid size-9 place-items-center rounded-xl text-primary-foreground shadow-[var(--shadow-glow)]">
-            <Bike className="size-5" />
-          </span>
+          <Logo className="size-10 shadow-[var(--shadow-glow)]" />
           <span className="flex flex-col leading-tight">
             <span className="font-display text-lg text-primary">مدیریت هوشمند</span>
             <span className="text-[11px] font-bold text-muted-foreground">شهر دوچرخه دز رکاب</span>
@@ -185,7 +184,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
             <div className="flex min-w-0 flex-col items-center justify-center text-center">
               <span className="flex items-center gap-2 truncate font-display text-lg tracking-tight text-on-hero">
-                <Bike className="size-6 shrink-0 lg:hidden" />
+                <Logo className="size-7 rounded-lg lg:hidden" />
                 مدیریت هوشمند
               </span>
               <span className="truncate text-[11px] font-bold text-on-hero-muted">

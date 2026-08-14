@@ -1,3 +1,4 @@
+import { nowISO } from "@/lib/datetime";
 import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -118,7 +119,7 @@ function TaskDetail() {
       completedNote: note,
       photos: allPhotos,
       ...(allPhotos[0] ? { photo: allPhotos[0] } : {}),
-      submittedAt: new Date().toISOString(),
+      submittedAt: nowISO(),
     });
     log({
       entity: "task",
@@ -144,7 +145,7 @@ function TaskDetail() {
     patch({
       status: "APPROVED",
       finalWage: wage,
-      approvedAt: new Date().toISOString(),
+      approvedAt: nowISO(),
       ...(wageNote.trim() ? { wageNote: wageNote.trim() } : {}),
     });
     log({
@@ -192,7 +193,7 @@ function TaskDetail() {
       toast.error("دلیل درخواست ویرایش را بنویسید.");
       return;
     }
-    patch({ editRequest: editReason.trim(), editRequestAt: new Date().toISOString() });
+    patch({ editRequest: editReason.trim(), editRequestAt: nowISO() });
     log({
       entity: "task",
       recordId: task!.id,

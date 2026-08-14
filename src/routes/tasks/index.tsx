@@ -1,3 +1,4 @@
+import { nowISO } from "@/lib/datetime";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { Plus, Search, Wrench } from "lucide-react";
@@ -101,7 +102,7 @@ function TasksPage() {
           wage: form.wage,
           status: "PENDING",
           createdBy: user!.id,
-          createdAt: new Date().toISOString(),
+          createdAt: nowISO(),
         },
         ...s.tasks,
       ],

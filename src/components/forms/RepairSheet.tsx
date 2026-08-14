@@ -1,3 +1,4 @@
+import { nowISO } from "@/lib/datetime";
 import { useState } from "react";
 import { Plus, Trash2, Wrench } from "lucide-react";
 import { toast } from "sonner";
@@ -69,7 +70,7 @@ export function RepairSheet({
         return;
       }
     }
-    const now = new Date().toISOString();
+    const now = nowISO();
     const created: Task[] = lines.map((l) => ({
       id: uid("t"),
       workerId: l.workerId,
