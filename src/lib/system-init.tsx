@@ -7,6 +7,8 @@ import {
   type ReactNode,
 } from "react";
 
+import { getInitializationService } from "./init-service";
+
 /**
  * Centralized system initialization state.
  * Frontend foundation only — no OWNER creation, users, tables or permissions yet.
