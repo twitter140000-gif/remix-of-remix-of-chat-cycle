@@ -59,9 +59,10 @@ export function SystemInitProvider({
   const runCheck = useCallback(
     async (check?: () => Promise<boolean>) => {
       setStatus("CHECKING_INITIALIZATION");
-      if (!check) return;
       try {
-        const initialized = await check();
+        const initialized = check
+          ? await check()
+          : (await getInitializationService().checkInitialization()).initialized;
         setStatus(initialized ? "INITIALIZED" : "NOT_INITIALIZED");
       } catch (e) {
         setStatus("INITIALIZATION_FAILED", e instanceof Error ? e.message : "خطای نامشخص");
