@@ -41,7 +41,32 @@ export const stubBackendConfigProvider: BackendConfigProvider = {
   },
 };
 
-let currentProvider: BackendConfigProvider = stubBackendConfigProvider;
+/**
+ * Env-based provider: reads Vite public env vars (no credentials in code).
+ * Falls back to SSR-only vars when the VITE_* ones are absent.
+ */
+export const envBackendConfigProvider: BackendConfigProvider = {
+  getConfig() {
+    const env = import.meta.env as Record<string, string | undefined>;
+    const backendUrl =
+      env['VITE_SUPABASE_URL'] ??
+      (typeof process !== "undefined" ? process.env?.['SUPABASE_URL'] : undefined) ??
+      "";
+    const publicApiKey =
+      env['VITE_SUPABASE_PUBLISHABLE_KEY'] ??
+      (typeof process !== "undefined" ? process.env?.['SUPABASE_PUBLISHABLE_KEY'] : undefined) ??
+      "";
+
+    return {
+      source: "env",
+      backendUrl,
+      publicApiKey,
+      isConfigured: Boolean(backendUrl && publicApiKey),
+    };
+  },
+};
+
+let currentProvider: BackendConfigProvider = envBackendConfigProvider;
 
 /** Swap the provider later (e.g. env reader, connector, or admin panel). */
 export function setBackendConfigProvider(provider: BackendConfigProvider) {
