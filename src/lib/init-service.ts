@@ -1,7 +1,9 @@
 /**
  * Single reusable initialization service interface.
- * No backend connection yet — the default implementation is a local stub.
+ * The default implementation is backed by the `public.system_initialization` table.
  */
+
+import { readSystemInitialization } from "./init.functions";
 
 export type InitializationStatus = {
   /** Whether the system has already been initialized (OWNER exists, etc.). */
@@ -30,7 +32,18 @@ export class InitializationNotImplementedError extends Error {
   }
 }
 
-/** Default no-backend implementation: always reports "not initialized". */
+/** Backend-backed implementation: reads `is_initialized` from `public.system_initialization`. */
+export const cloudInitializationService: InitializationService = {
+  name: "cloud",
+  async checkInitialization() {
+    return readSystemInitialization();
+  },
+  async initialize() {
+    throw new InitializationNotImplementedError("initialize");
+  },
+};
+
+/** Fallback no-backend implementation: always reports "not initialized". */
 export const localStubInitializationService: InitializationService = {
   name: "local-stub",
   async checkInitialization() {
@@ -41,9 +54,9 @@ export const localStubInitializationService: InitializationService = {
   },
 };
 
-let currentService: InitializationService = localStubInitializationService;
+let currentService: InitializationService = cloudInitializationService;
 
-/** Swap the implementation later (e.g. a backend-backed service). */
+/** Swap the implementation later (e.g. back to local stub for testing). */
 export function setInitializationService(service: InitializationService) {
   currentService = service;
 }
