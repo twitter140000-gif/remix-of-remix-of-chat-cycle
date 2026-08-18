@@ -409,6 +409,36 @@ export type Database = {
         }
         Relationships: []
       }
+      system_initialization: {
+        Row: {
+          created_at: string
+          id: boolean
+          initialized_at: string | null
+          is_initialized: boolean
+          metadata: Json
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          created_at?: string
+          id?: boolean
+          initialized_at?: string | null
+          is_initialized?: boolean
+          metadata?: Json
+          updated_at?: string
+          version?: string
+        }
+        Update: {
+          created_at?: string
+          id?: boolean
+          initialized_at?: string | null
+          is_initialized?: boolean
+          metadata?: Json
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
+      }
       tasks: {
         Row: {
           accounting_at: string | null
